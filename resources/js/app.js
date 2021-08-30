@@ -1,7 +1,12 @@
-require('./bootstrap');
-window.Vue = require('vue');
+import Vue from 'vue'
+import router from './router'
+import App from './App.vue'
+import css from './assets/css/main.css'
 
 new Vue({
   el: '#app',
-  template: '<h1>Hello wd</h1>'
+  router,
+  css,
+  components: { App },
+  template: '<App />'
 })
