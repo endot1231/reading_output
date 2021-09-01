@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OutputController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any?}',function(){
-    return view('index');
-})->where('any', '.+');
+Route::get('/', [HomeController::class,'index']);
+Route::resource('output',OutputController::class);
+Auth::routes();
