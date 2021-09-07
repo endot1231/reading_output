@@ -4,13 +4,39 @@
     <div class="d-flex">
       <a class="nav-link text-white" href="{{ route('index') }}"><i class="fas fa-book mr-1 fa-lg"></i>読書アウトプット</a>
       <ul class="navbar-nav mr-auto d-flex">
+        <!-- ログイン後 -->
+        @auth
+        <li class="nav-item"><a class="nav-link" href="{{route('output.create')}}"><i class="far fa-edit"></i>書く</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="far fa-user-circle"></i>マイページ </a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="far fa-star"></i>お気に入り登録</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-history"></i>閲覧履歴</a></li>
+        @endauth
+
+        <!-- ログイン前 -->
+        @guest
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="far fa-edit"></i>書く </span></li>
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="far fa-user-circle"></i>マイページ </span></li>
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="far fa-star"></i>お気に入り登録 </span></li>
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="fas fa-history"></i>閲覧履歴 </span></li>
+        @endguest
       </ul>  
 
+
+
       <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>ログイン / 新規登録</a></li>
+        @auth
+        <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">
+          <i class="fas fa-sign-in-alt fa-rotate-180"></i>ログアウト</a></li>
+        @endauth
+  
+        @guest
+        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">
+          <i class="fas fa-sign-in-alt"></i>ログイン / 新規登録</a></li>
+        @endguest
       </ul>  
     </div> 
   </nav>
@@ -27,10 +53,28 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="#"><i class="far fa-user-circle"></i>マイページ </a></li>  
+        <!-- ログイン後 -->
+        @auth
+        <li class="nav-item"><a class="nav-link" href="{{route('output.create')}}"><i class="far fa-edit"></i>書く</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="far fa-user-circle"></i>マイページ </a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="far fa-star"></i>お気に入り登録</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-history"></i>閲覧履歴</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>ログイン / 新規登録</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}"><i class="fas fa-sign-in-alt fa-rotate-180"></i>ログアウト</a></li>
+        @endauth
+
+        <!-- ログイン前 -->
+        @guest
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="far fa-edit"></i>書く </span></li>
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="far fa-user-circle"></i>マイページ </span></li>
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="far fa-star"></i>お気に入り登録 </span></li>
+        <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
+          <i class="fas fa-history"></i>閲覧履歴 </span></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">
+          <i class="fas fa-sign-in-alt"></i>ログイン / 新規登録</a></li>
+        @endguest
       </ul>
     </div>
   </nav>
