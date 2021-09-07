@@ -36,6 +36,40 @@
   </nav>
 </header>
 
+@guest
+<div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: rgba(0,0,0,.03);">
+        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる"><span aria-hidden="true"
+            　id="loginFrom_close">&times;</span></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-10 offset-1">
+            <p>各種機能の利用にはログインが必要です。</p>
+              <div class="col">
+                <a href="{{ route('login')}}" class="btn col mt-3 p-2" style="color: #597594;border: 1px #597594 solid">
+                <span>ログイン</span></a>
+              </div>
+
+              <div class="col">
+                <a href="{{ route('register')}}" class="btn col mt-3 p-2 text-white" style="background:#597594">
+                <span>新規登録</span></a>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endguest
+
 
 @push('javascript')
 <script type="text/javascript">
