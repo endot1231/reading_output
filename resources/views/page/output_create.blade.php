@@ -1,134 +1,79 @@
 @extends('layouts.base')
 
 @section('content')
-<div id="app">
-    <textarea class="ckeditor" name="text"></textarea>
+<div id="app" class="mt-5 pt-5">
+    <div id="editor-container"></div>
 </div>
-
 @endsection
 
+@push('css')
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+@endpush
+
 @push('javascript')
-<script src="https://unpkg.com/vue@3.0.2/dist/vue.global.prod.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axi
-os/0.19.2/axios.min.js"></script>
-<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://unpkg.com/quill-table-ui@1.0.5/dist/umd/index.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js" type="text/javascript"></script>
+
+<!--
+<script src="{{asset('js/ckeditor.js')}}"></script>
+-->
 <script>
-Vue.createApp({
-    data() {
-        return {
-            status: 'index', // ここの内容で表示切り替え
-            posts: [],
-            currentPost: {},
-            postTitle: '',  // タイトル
-            richEditor: null    // CKEditorのインスタンス
-        }
+var quill = new Quill('#editor-container', {
+  modules: {
+    imageResize: {
+        displaySize: true
     },
-    methods: {
-        initRichEditor(defaultDescription) {
-            const target = document.querySelector('#editor');
-            ClassicEditor.create(target)
-                .then(editor => {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      ['link', 'blockquote', 'code-block', 'image'],
+      [{ 'color': [] }, { 'background': [] }], 
+      [{ 'align': [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }]
+    ]
+  },
+  placeholder: '',
+  theme: 'snow'
+});
 
-                    this.postTitle = this.currentPost.title || '';
-                    this.richEditor = editor;
-                    this.richEditor.plugins
-                        .get('FileRepository')
-                        .createUploadAdapter = loader  => {
-                            return new UploadAdapter(loader);
-                        };
-                    this.richEditor.setData(defaultDescription);
-                });
-        },
-        getPosts() {
-            const url = '/output';
-            axios.get(url)
-                .then(response => {
-                    this.posts = response.data;
-                });
-        },
-        setCurrentPost(post) {
-            this.currentPost = post;
-            this.status = 'edit';
-        },
-        changeStatus(status) {
-            this.status = status;
-        },
-        onSave() {
-            if(confirm('保存します。よろしいですか？')) {
-                let url = '';
-                let method = '';
-                if(this.isStatusCreate) {
-                    url = '/post';
-                    method = 'POST';
-                } else if(this.isStatusEdit) {
-                    url = `/post/${this.currentPost.id}`;
-                    method = 'PUT';
-                }
+quill.on('text-change', function(delta, oldDelta, source) {
+  if (source == 'api') {
+    console.log("An API call triggered this change.");
+  } else if (source == 'user') {
+    console.log(quill.root.innerHTML);
+  }
+  
+});
 
-                const params = {
-                    _method: method,
-                    title: this.postTitle,
-                    description: this.richEditor.getData()
-                };
-                axios.post(url, params)
+class UploadAdapter {
+    constructor(loader) {
+        this.loader = loader;
+    }
+    upload() {
+        return this.loader.file
+        .then(file => {
+            return new Promise((resolve, reject) => {
+                const url = '/post/upload_image';
+                let formData = new FormData();
+                formData.append('image', file);
+                axios.post(url, formData)
                     .then(response => {
                         if(response.data.result === true) {
-                            this.getPosts();
-                            this.changeStatus('index');
+                            const imageUrl = response.data.image_url;
+                            resolve({ default: imageUrl });
+                        } else {
+                            reject();
                         }
                     })
                     .catch(error => {
-                        console.log(error); // エラーの場合
+                        reject();
                     });
-            }
-        },
-        onDelete(post) {
-            if(confirm('削除します。よろしいですか？')) {
-                const url = `/post/${post.id}`;
-                axios.delete(url)
-                    .then(response => {
-                        if(response.data.result === true) {
-                            this.getPosts();
-                        }
-                    });
-            }
-        }
-    },
-    computed: {
-        isStatusIndex() {
-            return (this.status === 'index');
-        },
-        isStatusCreate() {
-            return (this.status === 'create');
-        },
-        isStatusEdit() {
-            return (this.status === 'edit');
-        }
-    },
-    watch: {
-        status(value) {
-            if(value === 'create') {
-                this.currentPost = {};
-            }
-
-            const editorKeys = ['create', 'edit'];
-            const defaultDescription = (value === 'edit') ? this.currentPost.description : '';
-
-            if(editorKeys.includes(value)) {
-                Vue.nextTick(() => {
-                    this.initRichEditor(defaultDescription);
-                });
-            }
-        }
-    },
-    setup() {
-        return {
-            richEditor: Vue.reactive({})
-        }
-    },
-    mounted() {
-        this.getPosts();
+            });
+        });
     }
-}).mount('#app');
+}
+
 </script>
 @endpush
