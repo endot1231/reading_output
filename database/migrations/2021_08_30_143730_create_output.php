@@ -21,8 +21,8 @@ class CreateOutput extends Migration
             ->onDelete('cascade');
 
             $table->text('title');
-            $table->text('content');
-            $table->boolean('is_draft')->default(false);
+            $table->longText('content')->nullable();
+            $table->boolean('is_draft')->default(true);
             $table->timestamps();
         });
     }
