@@ -24,7 +24,7 @@ class OutputController extends Controller
      */
     public function create()
     {
-        //
+        return view('page.output_create');
     }
 
     /**
@@ -35,7 +35,10 @@ class OutputController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $title = $request['title'];
+        $id = Auth::id();
+        $output = OutPut::create(['title'=>$title,'user_id'=> $id,'is_draft' => true]);
+        return redirect()->route('output.edit', ['output' => $output->id]);
     }
 
     /**
