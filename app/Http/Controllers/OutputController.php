@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\OutPut;
+use Illuminate\Support\Facades\Log;
 
 class OutputController extends Controller
 {
@@ -14,7 +16,7 @@ class OutputController extends Controller
      */
     public function index()
     {
-        //
+        return OutPut::get();
     }
 
     /**
@@ -49,7 +51,7 @@ class OutputController extends Controller
      */
     public function show($id)
     {
-        $output =OutPut::find($id);
+        $output = OutPut::find($id);
         return view('page.output_detail',['output'=>$output]);
     }
 
@@ -61,7 +63,15 @@ class OutputController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user_id = Auth::id();
+        $outPut = OutPut::where('user_id', $user_id )->where('id', $id )->first();
+        if($outPut == null){
+            abort(404);
+        }
+        $data['output'] = $outPut;
+        $data['content'] = sanitizeHtml($outPut->content);
+        $data['mode'] = 'edit';
+        return view('page.output_edit',$data);
     }
 
     /**
@@ -73,7 +83,12 @@ class OutputController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user_id = Auth::id();
+        $outPut = OutPut::where('user_id', $user_id )->where('id', $id )->first();
+        $outPut->title = $request->title;
+        $outPut->content = $request->content;
+        $outPut->save();
+        return['fin'=>''];
     }
 
     /**
