@@ -18,3 +18,4 @@ use App\Http\Controllers\OutputController;
 Route::get('/', [HomeController::class,'index']);
 Route::resource('output',OutputController::class);
 Auth::routes();
+Route::get('/logout', [LoginController::class,'logout'])->name('logout');

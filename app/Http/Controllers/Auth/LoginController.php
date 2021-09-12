@@ -47,4 +47,12 @@ class LoginController extends Controller
         $request->session()->regenerate();
         return response()->json();
     }
+
+    protected function logout(Request $request)
+    {
+        //logout user
+        Auth::logout();
+        // redirect to homepage
+        return redirect('/');
+    }
 }
