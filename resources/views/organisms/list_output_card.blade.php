@@ -1,10 +1,15 @@
 <div class="container mt-5 pt-5">
-    @foreach($outputs as $output)
-        @include('molecules.output_card', ['output' => $output])
-    @endforeach
     <div class="row">
-        <div class="offset-4">
-            {{ $outputs->links() }}
+        @isset($title)
+            <h6 class="col-12 font-weight-bold">{{$title}}</h6>
+        @endisset
+        @foreach($outputs as $output)
+            @include('molecules.output_card', ['output' => $output])
+        @endforeach
+        <div class="row">
+            <div class="offset-4">
+                {{ $outputs->links() }}
+            </div>
         </div>
     </div>
 </div>
