@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OutputController;
+use App\Http\Controllers\MyPageController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,8 @@ use App\Http\Controllers\OutputController;
 |
 */
 
-Route::get('/', [HomeController::class,'index']);
+Route::get('/', [HomeController::class,'index'])->name('index');
 Route::resource('output',OutputController::class);
+Route::resource('mypage',MyPageController::class);
 Auth::routes();
 Route::get('/logout', [LoginController::class,'logout'])->name('logout');
