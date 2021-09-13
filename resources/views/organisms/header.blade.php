@@ -142,8 +142,8 @@ $('.menu-trigger').on('click',function (e) {
 }
 .menu-trigger {
   position: relative;
-  width: 40px;
-  height: 34px;
+  width: 30px;
+  height: 24px;
   background: none;
   border: none;
   appearance: none;
@@ -161,20 +161,20 @@ $('.menu-trigger').on('click',function (e) {
   top: 0;
 }
 .menu-trigger span:nth-of-type(2) {
-  top: 15px;
+  top: 10px;
 }
 .menu-trigger span:nth-of-type(3) {
   bottom: 0;
 }
 
 .menu-trigger.active span:nth-of-type(1) {
-  transform: translateY(15px) rotate(-45deg);
+  transform: translateY(10px) rotate(-45deg);
 }
 .menu-trigger.active span:nth-of-type(2) {
   opacity: 0;
 }
 .menu-trigger.active span:nth-of-type(3) {
-  transform: translateY(-15px) rotate(45deg);
+  transform: translateY(-10px) rotate(45deg);
 }
 
 .title{
