@@ -18,4 +18,9 @@ class OutPut extends Model
         'content',
         'is_draft'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
