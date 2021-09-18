@@ -19,7 +19,7 @@ class OutPutTableSeeder extends Seeder
         //必要ならループ（ここをFactory使う）
         for($i = 0; $i < 10; $i++){
             OutPut::create([
-                'user_id' => 1,
+                'user_id' => 33,
                 'title' => Str::random(100),
                 'content' =>  Str::random(100),
                 'is_draft' =>false, 
