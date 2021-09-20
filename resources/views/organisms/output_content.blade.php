@@ -1,12 +1,33 @@
 <div class="container mt-5 pt-5">
   <div class="row">
+    @if($mode != "edit")
+      @auth
+        @if($output->user->id == Auth::id())
+        <div class="text-right col-12">
+          <a href="{{route("output.edit",$output->id)}}"><i class="far fa-edit"></i>編集</a>
+        </div>
+        @endif
+      @endauth
+    @endif
     <div class="form-group col-12">
       <label for="title">書籍名</label>
       <input type="text" class="form-control" id="title" placeholder="書籍名を入力して下さい。" value="{{$output->title}}">
     </div>
     <div class="col-12"> 
-      <div id="editor-container"></div>
+      <div id="editor-container" style="min-height: 450px;"></div>
     </div>
+    @if($mode == "edit")
+    @auth
+        @if($output->user->id == Auth::id())
+        <div class="col-12 text-center mt-2 mb-5">
+          <button id="content_button" type="button" class="btn bg-base text-white" style="width: 140px">
+            <span class="spinner-border spinner-border-sm d-none" id="content_spiner" ole="status"
+                aria-hidden="false"></span>
+            変更</button>
+        </div>
+        @endif
+      @endauth
+    @endif
   </div>
 </div>
 
@@ -15,39 +36,44 @@
 @endpush
 
 @push('javascript')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://unpkg.com/quill-table-ui@1.0.5/dist/umd/index.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css"  href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script>
-/*
-var show_toast = true;
-var enableFlag = function(){
-  show_toast = true;
-};
-setInterval(enableFlag, 5000);
-*/
+var toolbar = null;
+var isEdit = false;
+
+if(@json($mode) == "edit"){
+  var toolbar = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['code-block',{ 'color': [] }, { 'background': [] }], 
+        [{ 'align': [] }],
+        [{ list: 'ordered' }, { list: 'bullet' }]
+      ];
+  var isEdit =true;
+}
 
 var quill = new Quill('#editor-container', {
   modules: {
-    toolbar: [
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      ['code-block',{ 'color': [] }, { 'background': [] }], 
-      [{ 'align': [] }],
-      [{ list: 'ordered' }, { list: 'bullet' }]
-    ]
+    toolbar: toolbar
   },
   placeholder: '',
   theme: 'snow'
 });
 
 // set content
-quill.root.innerHTML =  '{!! $content !!}';
+quill.root.innerHTML =  '{!! sanitizeHtml($output->content) !!}';
 
-function updateContent(){
+if(!isEdit){
+  quill.disable();
+}
+
+async function updateContent(){
+$('#content_spiner').removeClass("d-none");
+$('#content_button').prop('disabled', true);
  $.ajax({
     type: "PUT",
     url: "/output/{{ $output->id }}",
@@ -70,9 +96,12 @@ function updateContent(){
     })
     // Ajaxリクエストが成功・失敗どちらでも発動
     .always( (data) => {
+      $('#content_spiner').addClass("d-none");
+      $('#content_button').prop('disabled', false);
   });
 }
 
+/*
 quill.on('text-change', function(delta, oldDelta, source) {
   updateContent();
 });
@@ -80,5 +109,11 @@ quill.on('text-change', function(delta, oldDelta, source) {
 $('#title').keyup(function (e) {
   updateContent();
 })
+*/
+
+$('#content_button').click(function (e) {
+  updateContent();
+});
+
 </script>
 @endpush
