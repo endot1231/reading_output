@@ -5,9 +5,13 @@
     <div class="row justify-content-between">
 
         <div class="text-right col-12">
+          @auth
+            @if($user->id == Auth::id())
             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#setting">
-                <i class="fas fa-cog"></i>
+              <i class="fas fa-cog"></i>
             </button>
+            @endif
+          @endauth
         </div>
 
         <div class="text-center col-12">
