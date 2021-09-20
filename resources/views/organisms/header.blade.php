@@ -8,7 +8,7 @@
         @auth
         <li class="nav-item"><a class="nav-link" href="{{route('output.create')}}"><i class="far fa-edit"></i>書く</a></li>
         <li class="nav-item"><a class="nav-link" href="{{route('mypage.show',['mypage'=>Auth::id()])}}"><i class="far fa-user-circle"></i>マイページ </a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-history"></i>閲覧履歴</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{route('history')}}"><i class="fas fa-history"></i>閲覧履歴</a></li>
         @endauth
 
         <!-- ログイン前 -->
@@ -52,7 +52,7 @@
         @auth
         <li class="nav-item"><a class="nav-link" href="{{route('output.create')}}"><i class="far fa-edit"></i>書く</a></li>
         <li class="nav-item"><a class="nav-link" href="{{route('mypage.show',['mypage'=>Auth::id()])}}"><i class="far fa-user-circle"></i>マイページ </a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-history"></i>閲覧履歴</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{route('history')}}"><i class="fas fa-history"></i>閲覧履歴</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}"><i class="fas fa-sign-in-alt fa-rotate-180"></i>ログアウト</a></li>
         @endauth
 

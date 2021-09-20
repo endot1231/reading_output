@@ -30,7 +30,6 @@
     </div>
 </div>
 
-  
 <div class="modal fade" id="setting" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="label1">
     <div class="modal-dialog" role="document">
         <div class="modal-content"> 
@@ -79,7 +78,7 @@
 </div>
 
 
-@include('organisms.list_output_card',['outputs' => $outputs , 'title' =>"アウトプット一覧"])
+@include('organisms.output.list.index',['outputs' => $outputs , 'title' =>"アウトプット一覧"])
 @endsection
 
 @push('css')
