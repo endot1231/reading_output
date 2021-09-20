@@ -1,5 +1,5 @@
 
-<div class="col-12 col-md-10 d-flex flex-row bd-highlight border rounded output_card output_card_hover_animation pb-3 pt-3" id="{{$output->id}}" >
+<div class="col-12 d-flex flex-row bd-highlight border rounded output_card output_card_hover_animation pb-3 pt-3" id="{{$output->id}}" >
     <a href="#">
         <img class="output_card_image border" src="{{$output->user->profile->url}}">
     </a> 
