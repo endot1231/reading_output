@@ -18,7 +18,12 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::get('/', [HomeController::class,'index'])->name('index');
+Route::get('history', [HomeController::class,'history'])->name('history');
+
 Route::resource('output',OutputController::class);
-Route::resource('mypage',MyPageController::class);
+
+Route::post('mypage/{id}',[MyPageController::class,'update'])->name('mypage.update');
+Route::resource('mypage',MyPageController::class)->except(['update']);
+
 Auth::routes();
 Route::get('/logout', [LoginController::class,'logout'])->name('logout');
