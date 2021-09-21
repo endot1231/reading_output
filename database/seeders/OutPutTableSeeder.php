@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\OutPut;
-use Faker\Factory as Faker;
+use Faker\Factory;
 use Illuminate\Support\Str;
 
 class OutPutTableSeeder extends Seeder
@@ -16,12 +16,13 @@ class OutPutTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Factory::create('ja_JP');
         //必要ならループ（ここをFactory使う）
         for($i = 0; $i < 10; $i++){
             OutPut::create([
                 'user_id' => 1,
-                'title' => Str::random(100),
-                'content' =>  Str::random(100),
+                'title' => "テストタイトル".$i,
+                'content' =>  $faker->realText(),
                 'is_draft' =>false, 
             ]);
         }
