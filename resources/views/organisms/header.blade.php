@@ -30,7 +30,9 @@
   
         @guest
         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">
-          <i class="fas fa-sign-in-alt"></i>ログイン / 新規登録</a></li>
+          <i class="fas fa-sign-in-alt"></i>ログイン</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">
+          <i class="fas fa-user-plus"></i>新規登録</a></li>
         @endguest
       </ul>  
     </div> 
@@ -65,7 +67,9 @@
         <li class="nav-item" data-toggle="modal" data-target="#myModal"><span class="nav-link" style="cursor: pointer;">
           <i class="fas fa-history"></i>閲覧履歴 </span></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">
-          <i class="fas fa-sign-in-alt"></i>ログイン / 新規登録</a></li>
+          <i class="fas fa-sign-in-alt"></i>ログイン</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">
+          <i class="fas fa-user-plus"></i>新規登録</a></li>
         @endguest
       </ul>
     </div>
