@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OutPut;
+use App\Models\History;
 use Illuminate\Support\Facades\Log;
 
 class OutputController extends Controller
@@ -26,7 +27,7 @@ class OutputController extends Controller
      */
     public function create()
     {
-        return view('page.output_create');
+        return view('page.output.create');
     }
 
     /**
@@ -52,7 +53,18 @@ class OutputController extends Controller
     public function show($id)
     {
         $output = OutPut::find($id);
-        return view('page.output_detail',['output'=>$output]);
+        if (Auth::check()) {
+            History::create([
+                'user_id'=>Auth::id(),
+                'output_id'=>$id,
+            ]);
+        }
+        
+        if($output == null){
+            abort(404);
+        }
+
+        return view('page.output.detail',['output'=>$output]);
     }
 
     /**
@@ -71,7 +83,7 @@ class OutputController extends Controller
         $data['output'] = $outPut;
         $data['content'] = sanitizeHtml($outPut->content);
         $data['mode'] = 'edit';
-        return view('page.output_edit',$data);
+        return view('page.output.edit',$data);
     }
 
     /**
@@ -99,6 +111,10 @@ class OutputController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user_id = Auth::id();
+        $outPut = OutPut::where('user_id', $user_id )->where('id', $id )->first();
+        if($outPut == null){abort('404');}
+        $outPut->delete();
+        return['fin'=>''];
     }
 }
