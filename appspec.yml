@@ -6,7 +6,7 @@ files:
 
 hooks:
   AfterInstall:
-    - location: scripts/preparation.sh
+    - location: scripts_for_deploy/preparation.sh
       runas: root
 
 permissions:
