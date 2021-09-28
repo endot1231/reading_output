@@ -1,6 +1,4 @@
-
-<header class="bg-base">
-  <nav class="navbar navbar-expand navbar-dark fixed-top d-none d-md-block bg-base">
+  <nav class="w-100 navbar sticky-top navbar-expand navbar-dark fixed-top d-none d-md-block bg-base">
     <div class="d-flex">
       <a class="nav-link text-white" href="{{ route('index') }}"><i class="fas fa-book mr-1 fa-lg"></i>読書アウトプット</a>
       <ul class="navbar-nav mr-auto d-flex">
@@ -38,7 +36,7 @@
     </div> 
   </nav>
     
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top d-block d-md-none bg-base">
+  <nav class="navbar navbar-dark sticky-top d-block d-md-none bg-base">
     <div class="d-flex justify-content-between">
       <a class="nav-link text-white" href="{{ route('index') }}"><i class="fas fa-book mr-1 fa-lg"></i>読書アウトプット</a>
       <button class="navbar-toggler menu-trigger mt-2" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -49,7 +47,7 @@
       </button>
     </div>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav">
         <!-- ログイン後 -->
         @auth
         <li class="nav-item"><a class="nav-link" href="{{route('output.create')}}"><i class="far fa-edit"></i>書く</a></li>
@@ -74,12 +72,12 @@
       </ul>
     </div>
   </nav>
-</header>
 
 @guest
 <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+
       <div class="modal-header" style="background-color: rgba(0,0,0,.03);">
         <button type="button" class="close" data-dismiss="modal" aria-label="閉じる"><span aria-hidden="true"
             　id="loginFrom_close">&times;</span></button>
@@ -105,6 +103,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
