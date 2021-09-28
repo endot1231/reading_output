@@ -13,7 +13,7 @@
       <label for="title">書籍名</label>
       <input type="text" class="form-control" id="title" placeholder="書籍名を入力して下さい。" value="{{$output->title}}">
     </div>
-    <div class="col-12"> 
+    <div class="col-12 h-100"> 
       <div id="editor-container" style="min-height: 450px;"></div>
     </div>
     @if($mode == "edit")
@@ -84,11 +84,7 @@ $('#content_button').prop('disabled', true);
     },
     data:{'title': $("#title").val(),'content': quill.root.innerHTML}
     }).done( (data) => {
-      /*
-      if(show_toast){
-        toastr.success('編集した内容を保存しました。');
-      }
-      */
+      toastr.success('編集した内容を保存しました。');
     })
     // Ajaxリクエストが失敗した時発動
     .fail( (jqXHR, textStatus, errorThrown) => {
